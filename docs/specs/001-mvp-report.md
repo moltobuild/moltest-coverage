@@ -12,7 +12,7 @@ under a configured floor.
 - [x] AC5: under `fail_under` (lines) or `fail_under_branches`, the run exits 1 and says which floor and by how much → `.github/e2e.sh` step 3
 - [x] AC6: `lcov = "<path>"` writes a tracefile genhtml accepts (SF/FN/FNDA/BRDA/DA/LF/LH/BRF/BRH/end_of_record) → test: `lcov_has_every_record`
 - [x] AC7: `json = "<path>"` writes totals and per-file figures with missing lines → test: `json_has_totals_and_files`
-- [x] AC8: a run not built with `--coverage` prints one line saying so and exits as the tests decided, unless `fail_under` is set → `.github/e2e.sh` step 1
+- [x] AC8: a run not built with `--coverage` (no `.gcno` for the measured sources) prints one line saying so and exits as the tests decided, floor or not; a coverage build in which none of them ran fails a floor → `.github/e2e.sh` step 1 (with `fail_under` set)
 - [x] AC9: an invalid config (unknown key, bad value, path outside the project) fails the run naming file and line → test: `config_errors_name_the_line`
 
 ## Design

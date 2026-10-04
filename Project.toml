@@ -2,7 +2,7 @@
 # Consumers add it with `molto add git+https://github.com/moltobuild/moltest-coverage --dev`.
 [package]
 name = "moltest_coverage"
-version = "0.1.0"
+version = "0.1.1"
 description = "Code coverage for C and C++ suites run by moltest"
 repository = "https://github.com/moltobuild/moltest-coverage"
 license = "Apache-2.0"
@@ -23,7 +23,7 @@ mode = "single"
 # For the tests only. src/ declares the moltest API it uses (src/moltest_api.h)
 # and links against the consumer's moltest, so there is one moltest per build.
 [dev-deps]
-moltest = { git = "https://github.com/moltobuild/moltest", branch = "master" }
+moltest = { git = "https://github.com/moltobuild/moltest", tag = "v0.3.0" }
 
 [profile.debug]
 opt_level = 0

@@ -211,8 +211,8 @@ static bool path_list_add(path_list *list, const char *path) {
     return true;
 }
 
-/* Every .gcda under `dir`, recursively. */
-static void find_gcda(const char *dir, path_list *found) {
+/* Every file under `dir` whose name ends in `suffix`, recursively. */
+static void find_suffixed(const char *dir, const char *suffix, path_list *found) {
     DIR *handle = opendir(dir);
     if(handle == NULL)
         return;
@@ -228,8 +228,8 @@ static void find_gcda(const char *dir, path_list *found) {
         if(stat(path, &info) != 0)
             continue;
         if(S_ISDIR(info.st_mode))
-            find_gcda(path, found);
-        else if(ends_with(path, ".gcda"))
+            find_suffixed(path, suffix, found);
+        else if(ends_with(path, suffix))
             (void)path_list_add(found, path);
     }
     closedir(handle);
@@ -239,7 +239,7 @@ void cov_erase(const char *profile_dir) {
     char obj[PATH_LIMIT];
     snprintf(obj, sizeof obj, "%s/obj", profile_dir);
     path_list found = {0};
-    find_gcda(obj, &found);
+    find_suffixed(obj, ".gcda", &found);
     for(size_t i = 0; i < found.count; i++)
         (void)remove(found.paths[i]);
     path_list_free(&found);
@@ -334,30 +334,44 @@ static bool project_root(char *out, size_t size) {
 #endif
 }
 
-bool cov_collect(const cov_config *config, const char *profile_dir, cov_report *report,
-                 char *tool_used, size_t tool_size, char *err, size_t err_size) {
-    __gcov_dump();
-
-    char obj[PATH_LIMIT];
-    snprintf(obj, sizeof obj, "%s/obj", profile_dir);
+/* The files under `obj` ending in `suffix` whose sources `config` measures:
+   an object's path under obj/ mirrors its source's, so "obj/src/x.c.gcda" is
+   src/x.c. */
+static void find_measured(const cov_config *config, const char *obj, const char *suffix,
+                          path_list *measured) {
     path_list found = {0};
-    find_gcda(obj, &found);
-
-    /* Only what is measured: an object's path under obj/ mirrors its
-       source's, so "obj/src/x.c.gcda" is src/x.c. */
-    path_list measured = {0};
+    find_suffixed(obj, suffix, &found);
     for(size_t i = 0; i < found.count; i++) {
         char source[PATH_LIMIT];
         snprintf(source, sizeof source, "%s", relative_to(found.paths[i], obj));
-        source[strlen(source) - strlen(".gcda")] = '\0';
+        source[strlen(source) - strlen(suffix)] = '\0';
         for(char *c = source; *c != '\0'; c++) {
             if(*c == '\\')
                 *c = '/';
         }
         if(cov_config_measures(config, source))
-            (void)path_list_add(&measured, found.paths[i]);
+            (void)path_list_add(measured, found.paths[i]);
     }
     path_list_free(&found);
+}
+
+bool cov_collect(const cov_config *config, const char *profile_dir, cov_report *report,
+                 bool *instrumented, char *tool_used, size_t tool_size, char *err,
+                 size_t err_size) {
+    __gcov_dump();
+
+    char obj[PATH_LIMIT];
+    snprintf(obj, sizeof obj, "%s/obj", profile_dir);
+
+    /* A compile with --coverage writes a .gcno beside the object; a build
+       without one has nothing to measure, which is not a measurement of zero. */
+    path_list notes = {0};
+    find_measured(config, obj, ".gcno", &notes);
+    *instrumented = notes.count > 0;
+    path_list_free(&notes);
+
+    path_list measured = {0};
+    find_measured(config, obj, ".gcda", &measured);
     if(measured.count == 0) {
         snprintf(tool_used, tool_size, "no data");
         path_list_free(&measured);

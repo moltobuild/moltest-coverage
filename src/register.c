@@ -78,19 +78,32 @@ static void on_run_end(const cov_moltest_summary *summary, void *ctx) {
     }
 
     cov_report report = {0};
+    bool instrumented = false;
     char tool[COV_PATH_MAX] = "";
     char err[ERR_SIZE] = "";
-    if(!cov_collect(&config, profile_dir, &report, tool, sizeof tool, err, sizeof err)) {
+    if(!cov_collect(&config, profile_dir, &report, &instrumented, tool, sizeof tool, err,
+                    sizeof err)) {
         fail_runf("moltest_coverage: %s", err);
         return;
     }
 
     if(report.count == 0) {
-        printf("\nmoltest_coverage: no coverage data for %s%s; build the tests with "
-               "--coverage (a profile with flags = [\"--coverage\"])\n",
-               config.include[0], config.include_count > 1 ? " and the other includes" : "");
+        const char *more = config.include_count > 1 ? " and the other includes" : "";
+        /* Not a coverage build: an ordinary `molto test` of a project that
+           also measures itself. Nothing was measured, so no floor applies. */
+        if(!instrumented) {
+            printf("\nmoltest_coverage: %s%s not built for coverage; "
+                   "`molto test --profile coverage` measures it\n",
+                   config.include[0], more);
+            cov_report_free(&report);
+            return;
+        }
+        /* A coverage build in which none of it ran: that is a measurement,
+           of zero, and a floor fails on it. */
+        printf("\nmoltest_coverage: %s%s was built for coverage and none of it ran\n",
+               config.include[0], more);
         if(config.fail_under >= 0 || config.fail_under_branches >= 0)
-            fail_runf("moltest_coverage: a floor is set and nothing was measured");
+            fail_runf("moltest_coverage: coverage is 0%%: nothing under %s ran", config.include[0]);
         cov_report_free(&report);
         return;
     }
