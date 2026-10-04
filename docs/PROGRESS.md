@@ -17,3 +17,9 @@
 - Commit: c7a3cc3, e286e8e, 6eda42a
 - Tests: `molto test` 17 passed and the plugin reports its own coverage; `.github/e2e.sh` ok with molto built from #87; fmt and lint clean
 - Next: CI after a molto release with #87; Windows collection is untested until then
+
+## 2026-10-04 — CI
+- Done: CI workflow (test, e2e on Linux/macOS/Windows; style as a gate), molto pinned to 0.47.1
+- Commit: see `git log`
+- Tests: not run on runners yet: needs the molto 0.47.1 release
+- Next: release molto 0.47.1, then CI green and moltest-coverage 0.1.0

@@ -7,7 +7,7 @@ coverage falls under a configured floor. The first community-style plugin of
 moltest, and what lets molto drop its Makefile `coverage` target.
 
 ## Current focus
-Milestone: M2 - MVP · Spec: specs/001-mvp-report.md · Next step: CI, once a molto release includes moltobuild/molto#87
+Milestone: M2 - MVP · Spec: specs/001-mvp-report.md · Next step: get CI green, release 0.1.0
 
 ## Docs
 [ROADMAP](ROADMAP.md) · [ARCHITECTURE](ARCHITECTURE.md) · [SECURITY](SECURITY.md) ·
