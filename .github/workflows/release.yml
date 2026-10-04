@@ -1,0 +1,55 @@
+name: Release
+
+# A tag is what publishes: push `v0.1.0` and, if every place states 0.1.0 and
+# the CI passes on all three platforms, a GitHub Release for it appears. There
+# are no binaries: moltest-coverage is consumed from source, at the tag, by molto.
+#
+# Run by hand (workflow_dispatch) it is a rehearsal: the same checks, against
+# the version the branch states, and nothing published.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  version:
+    name: The tag is the version
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Every place states it
+        run: |
+          if [ "${GITHUB_REF_TYPE}" = tag ]; then
+            want="${GITHUB_REF_NAME}"
+          else
+            want=$(sed -n 's/^version *= *"\(.*\)".*/\1/p' Project.toml | head -1)
+          fi
+          ./.github/check-version.sh "$want"
+
+  ci:
+    name: CI
+    uses: ./.github/workflows/ci.yml
+
+  publish:
+    name: Publish
+    needs: [version, ci]
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --title "moltest-coverage ${GITHUB_REF_NAME#v}" \
+            --generate-notes \
+            --verify-tag

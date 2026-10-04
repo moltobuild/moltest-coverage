@@ -18,6 +18,10 @@ with moltobuild/molto#87 and #90), installed by `.github/install-molto.sh`:
 | E2E | the same three | `.github/e2e.sh`: a `molto new` library, normal run, coverage run, missed floor with lcov and JSON |
 | Style | Linux, LLVM 19 | `molto fmt --check`, `molto lint` (a gate) |
 
+`.github/workflows/release.yml` runs on a `v*` tag: the tag must equal the
+version in Project.toml and recipe.toml, the CI above runs again, and only then
+is the GitHub Release published (DEVELOPMENT "Releasing").
+
 ## Strategy
 - Parsers and reports: unit tests on fixture `.gcov` texts and config files, no compiler needed.
 - End to end: a fixture project under `tests/fixtures/` built with `--coverage`
