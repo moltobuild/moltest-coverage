@@ -21,7 +21,8 @@ TOTAL         208/241  86.3%  71/94  75.5%  15/16  93.8%
 run failed: moltest_coverage: line coverage 86.3% is under fail_under = 90.0 by 3.7 points
 ```
 
-Without a coverage build it says so in one line and stays out of the way.
+Without a coverage build it says so in one line and stays out of the way, even
+with a floor set: the floor applies to coverage runs.
 
 - Line, branch and function coverage of `src/`, worst file first, with the
   lines no test reached.

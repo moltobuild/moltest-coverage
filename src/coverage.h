@@ -157,11 +157,12 @@ void cov_report_sort(cov_report *report);
 
 /* Flush the counters, find the data `config` measures under
    `<profile_dir>/obj`, run the gcov tool over it and parse what it prints.
-   `tool_used` names the tool. False with a reason when the tool fails;
-   true with an empty report when there is no data. */
+   `instrumented` says whether the measured sources were compiled for coverage
+   at all (their .gcno exist). `tool_used` names the tool. False with a reason
+   when the tool fails; true with an empty report when there is no data. */
 [[nodiscard]] bool cov_collect(const cov_config *config, const char *profile_dir,
-                               cov_report *report, char *tool_used, size_t tool_size, char *err,
-                               size_t err_size);
+                               cov_report *report, bool *instrumented, char *tool_used,
+                               size_t tool_size, char *err, size_t err_size);
 
 /* Delete every .gcda under `<profile_dir>/obj`: what a run reports is that
    run, not the sum of every run since the last clean build. */

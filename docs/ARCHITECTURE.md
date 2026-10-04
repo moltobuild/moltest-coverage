@@ -38,9 +38,10 @@ out) and are tested without a compiler; `collect` is tested end to end.
 ## Invariants
 - Only files under the configured `include` (default `src/`) are measured.
 - No runtime dependency beyond moltest, libc and an external gcov tool.
-- A run without coverage data (not built with `--coverage`) says so and does
-  not fail, unless `fail_under` is set: then it fails, because a floor nobody
-  measured is not met.
+- A run not built for coverage (no `.gcno` for the measured sources) says so
+  and applies no floor: an ordinary `molto test` of a project that also
+  measures itself must not fail on it. A coverage build in which none of the
+  measured code ran is a measurement of zero, and a floor fails on it.
 
 ## Open questions
 - **moltest version coupling — resolved.** molto allows one version per
