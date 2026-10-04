@@ -80,9 +80,12 @@ static bool read_string(const char *p, char *out, size_t size, const char **end)
     return true;
 }
 
-/* `[ "a", "b" ]` on one line into `items`. */
-static bool read_array(const char *p, char items[][COV_PATH_MAX], size_t max, size_t *count,
-                       const char **end) {
+/* One entry of an include or exclude list. Named so that a pointer to one is
+   spelled the same by every clang-format version: `char (*items)[N]` is not. */
+typedef char pattern[COV_PATH_MAX];
+
+/* `[ "a", "b" ]` on one line into `out`. */
+static bool read_array(const char *p, pattern *out, size_t max, size_t *count, const char **end) {
     if(*p != '[')
         return false;
     p = skip_spaces(p + 1);
@@ -94,7 +97,7 @@ static bool read_array(const char *p, char items[][COV_PATH_MAX], size_t max, si
     for(;;) {
         if(*count == max)
             return false;
-        if(!read_string(p, items[*count], COV_PATH_MAX, &p))
+        if(!read_string(p, out[*count], COV_PATH_MAX, &p))
             return false;
         (*count)++;
         p = skip_spaces(p);
@@ -135,7 +138,7 @@ static bool apply(cov_config *config, const char *key, const char *value, const 
     const char *end = value;
     if(strcmp(key, "include") == 0 || strcmp(key, "exclude") == 0) {
         const bool include = key[0] == 'i';
-        char (*items)[COV_PATH_MAX] = include ? config->include : config->exclude;
+        pattern *items = include ? config->include : config->exclude;
         size_t *count = include ? &config->include_count : &config->exclude_count;
         if(!read_array(value, items, COV_PATTERNS_MAX, count, &end))
             return fail(err, err_size, source, line, "'%s' must be an array of at most %d strings",
