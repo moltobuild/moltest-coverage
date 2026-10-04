@@ -1,6 +1,6 @@
 # Known issues
 
-## KI-1 A consumer's test binary fails to link outside a coverage profile — Status: Open
+## KI-1 A consumer's test binary fails to link outside a coverage profile — Status: Fixed in molto (moltobuild/molto#87), pending a release
 - Repro: a project with moltest_coverage in `[dev-deps]`; `molto test` (debug).
 - Expected: the suite runs and the plugin says there is no coverage data.
   Actual: `Undefined symbols: ___gcov_dump, _llvm_gcda_emit_arcs ...`.

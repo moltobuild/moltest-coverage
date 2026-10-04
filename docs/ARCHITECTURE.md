@@ -11,7 +11,8 @@ molto test --profile coverage          (molto: compiles src/ and tests/ with --c
            2. read config             ./moltest-coverage.toml (ADR 0003)
            3. find data               build/<profile>/obj/src/**/*.gcda
                                       (<profile> = parent of the test binary's dir)
-           4. run the tool            gcov -b -c -p | llvm-cov gcov -b -c -p, in a temp dir
+           4. run the tool            gcov -b -c -t, from the project root (stdout,
+                                      no temp files); paths made relative to the root
            5. parse .gcov text        lines, branches, functions (ADR 0002)
            6. report                  terminal; coverage.lcov; coverage.json
            7. gate                    fail the run when under fail_under
