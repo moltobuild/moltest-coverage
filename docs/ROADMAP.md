@@ -18,7 +18,7 @@
 - [x] `fail_under` (lines, branches) fails the run
 - [x] `coverage.lcov` and `coverage.json`
 - [x] molto fix: a dependency's flags reach the link line (moltobuild/molto#87)
-- [x] CI on Linux, macOS, Windows (as moltest's), pinned to molto 0.47.1 (the release with #87)
+- [x] CI on Linux, macOS, Windows (as moltest's), pinned to molto 0.47.2 (the release with #87 and #90)
 - [ ] Release 0.1.0
 
 ## M3 - Adoption in molto

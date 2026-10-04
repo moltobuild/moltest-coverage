@@ -9,8 +9,8 @@
 | Lint | `molto lint` |
 
 ## CI
-`.github/workflows/ci.yml`, molto pinned in `MOLTO_VERSION` (0.47.1, the first
-with moltobuild/molto#87), installed by `.github/install-molto.sh`:
+`.github/workflows/ci.yml`, molto pinned in `MOLTO_VERSION` (0.47.2, the first
+with moltobuild/molto#87 and #90), installed by `.github/install-molto.sh`:
 
 | Job | Runs on | Checks |
 |---|---|---|
