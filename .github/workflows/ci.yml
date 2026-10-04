@@ -5,11 +5,16 @@ on:
     branches: [master]
   pull_request:
   workflow_dispatch:
+  # release.yml runs this same CI before it publishes anything.
+  workflow_call:
 
 # A push that supersedes another cancels it: the result of a commit that is no
 # longer the tip settles nothing.
+#
+# "-ci" in the group: called from release.yml, github.workflow is "Release", and
+# a group shared with the caller would let one cancel the other.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-ci-${{ github.ref }}
   cancel-in-progress: true
 
 # The molto that builds and consumes this plugin, pinned like a dependency.
