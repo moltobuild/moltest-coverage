@@ -73,7 +73,7 @@ typedef struct {
 
 typedef struct {
     int line;
-    int index;     /* position among the branches gcov listed for that line */
+    int index; /* position among the branches gcov listed for that line */
     long long taken;
     bool executed; /* false: "never executed" */
 } cov_branch;
@@ -113,14 +113,17 @@ void cov_report_free(cov_report *report);
 [[nodiscard]] double cov_percent(size_t hit, size_t total);
 /* Drop the files `config` does not measure. */
 void cov_report_filter(cov_report *report, const cov_config *config);
+/* Make every absolute path under `root` relative to it, so that include and
+   exclude match however the build named its sources. `root` and the paths
+   are compared with '/' separators, and a drive letter's case ignored. */
+void cov_report_relativize(cov_report *report, const char *root);
 /* Order the files worst line coverage first, then by path. */
 void cov_report_sort(cov_report *report);
 
 /* Parse the annotated text gcov or `llvm-cov gcov` prints with `-b -c -t`,
    any number of files one after another, into `report`; counts for a file
    already there are added (ADR 0002). */
-[[nodiscard]] bool cov_parse_gcov(const char *text, cov_report *report, char *err,
-                                  size_t err_size);
+[[nodiscard]] bool cov_parse_gcov(const char *text, cov_report *report, char *err, size_t err_size);
 
 /* ------------------------------------------------------------------ */
 /* Reports                                                              */

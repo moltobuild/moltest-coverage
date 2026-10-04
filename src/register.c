@@ -29,7 +29,7 @@ static void on_run_start(size_t files, size_t tests, void *ctx) {
     (void)files, (void)tests, (void)ctx;
     config_ok = cov_config_load(&config, config_err, sizeof config_err);
     have_profile_dir = cov_profile_dir(moltest_self_path(), profile_dir, sizeof profile_dir);
-    if (have_profile_dir)
+    if(have_profile_dir)
         cov_erase(profile_dir);
 }
 
@@ -45,22 +45,22 @@ static void fail_runf(const char *format, ...) {
 }
 
 static void write_output(const char *path, char *content, const char *what) {
-    if (content == NULL) {
+    if(content == NULL) {
         fail_runf("moltest_coverage: out of memory rendering the %s report", what);
         return;
     }
     FILE *file = fopen(path, "wb");
     const bool written = file != NULL && fputs(content, file) >= 0;
-    if (file != NULL && fclose(file) != 0)
+    if(file != NULL && fclose(file) != 0)
         fail_runf("moltest_coverage: could not write %s", path);
-    else if (!written)
+    else if(!written)
         fail_runf("moltest_coverage: could not write %s (does its directory exist?)", path);
     free(content);
 }
 
 /* Fail the run when `percent` is under `floor` (a floor < 0 is unset). */
 static void apply_floor(const char *what, const char *key, double percent, double floor) {
-    if (floor < 0 || percent >= floor)
+    if(floor < 0 || percent >= floor)
         return;
     fail_runf("moltest_coverage: %s coverage %.1f%% is under %s = %.1f by %.1f points", what,
               percent, key, floor, floor - percent);
@@ -68,11 +68,11 @@ static void apply_floor(const char *what, const char *key, double percent, doubl
 
 static void on_run_end(const cov_moltest_summary *summary, void *ctx) {
     (void)summary, (void)ctx;
-    if (!config_ok) {
+    if(!config_ok) {
         fail_runf("moltest_coverage: %s", config_err);
         return;
     }
-    if (!have_profile_dir) {
+    if(!have_profile_dir) {
         fail_runf("moltest_coverage: cannot tell where this test binary's build lives");
         return;
     }
@@ -80,28 +80,28 @@ static void on_run_end(const cov_moltest_summary *summary, void *ctx) {
     cov_report report = {0};
     char tool[COV_PATH_MAX] = "";
     char err[ERR_SIZE] = "";
-    if (!cov_collect(&config, profile_dir, &report, tool, sizeof tool, err, sizeof err)) {
+    if(!cov_collect(&config, profile_dir, &report, tool, sizeof tool, err, sizeof err)) {
         fail_runf("moltest_coverage: %s", err);
         return;
     }
 
-    if (report.count == 0) {
+    if(report.count == 0) {
         printf("\nmoltest_coverage: no coverage data for %s%s; build the tests with "
                "--coverage (a profile with flags = [\"--coverage\"])\n",
                config.include[0], config.include_count > 1 ? " and the other includes" : "");
-        if (config.fail_under >= 0 || config.fail_under_branches >= 0)
+        if(config.fail_under >= 0 || config.fail_under_branches >= 0)
             fail_runf("moltest_coverage: a floor is set and nothing was measured");
         cov_report_free(&report);
         return;
     }
 
     char *text = cov_render_text(&report, tool);
-    if (text != NULL)
+    if(text != NULL)
         fputs(text, stdout);
     free(text);
-    if (config.lcov[0] != '\0')
+    if(config.lcov[0] != '\0')
         write_output(config.lcov, cov_render_lcov(&report), "lcov");
-    if (config.json[0] != '\0')
+    if(config.json[0] != '\0')
         write_output(config.json, cov_render_json(&report, tool), "JSON");
 
     const cov_totals t = cov_report_totals(&report);

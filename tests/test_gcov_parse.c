@@ -127,3 +127,21 @@ DESCRIBE(malformed_output_is_an_error) {
     cov_report_free(&report);
     EXPECT_FALSE(cov_parse_gcov("        1:    3:x\n", &report, err, sizeof err));
 }
+
+DESCRIBE(absolute_paths_become_relative_to_the_project) {
+    ASSERT_TRUE(cov_parse_gcov("        -:    0:Source:/w/app/src/a.c\n"
+                               "        1:    1:int a;\n"
+                               "        -:    0:Source:C:\\w\\app\\src\\b.c\n"
+                               "        1:    1:int b;\n"
+                               "        -:    0:Source:/w/application/src/c.c\n"
+                               "        1:    1:int c;\n"
+                               "        -:    0:Source:/usr/include/stdio.h\n"
+                               "        1:    1:int d;\n",
+                               &report, err, sizeof err));
+    cov_report_relativize(&report, "/w/app/");
+    EXPECT_STREQ("src/a.c", report.files[0].path);
+    EXPECT_STREQ("/w/application/src/c.c", report.files[2].path); /* a prefix, not the root */
+    EXPECT_STREQ("/usr/include/stdio.h", report.files[3].path);
+    cov_report_relativize(&report, "c:\\w\\app");
+    EXPECT_STREQ("src/b.c", report.files[1].path); /* drive letter, any case */
+}

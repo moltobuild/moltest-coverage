@@ -40,8 +40,7 @@ typedef struct {
     void (*on_run_start)(size_t files, size_t tests, void *ctx);
     void (*on_file_start)(const char *file, void *ctx);
     void (*on_test_start)(const char *file, const char *name, void *ctx);
-    void (*on_test_end)(const char *file, const char *name, int status, double seconds,
-                        void *ctx);
+    void (*on_test_end)(const char *file, const char *name, int status, double seconds, void *ctx);
     void (*on_file_end)(const char *file, size_t done, size_t total, void *ctx);
     void (*on_run_end)(const cov_moltest_summary *summary, void *ctx);
     void *ctx;
