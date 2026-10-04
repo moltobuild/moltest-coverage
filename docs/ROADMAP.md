@@ -6,9 +6,9 @@
 - [x] Spec 001 (MVP report)
 
 ## M1 - moltest plugin API v1 (work in moltest, its spec 004)
-- [ ] Several reporters at once, registered from a constructor
-- [ ] A reporter can fail the run (needed by `fail_under`)
-- [ ] Versioned reporter struct
+- [x] Several reporters at once, registered from a constructor
+- [x] A reporter can fail the run (needed by `fail_under`)
+- [x] Versioned reporter struct (moltest 0.3.0, commit 51e653d on feat/plugin-api-v1)
 
 ## M2 - MVP (spec 001)
 - [ ] `moltest-coverage.toml` reader

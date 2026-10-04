@@ -7,7 +7,7 @@ coverage falls under a configured floor. The first community-style plugin of
 moltest, and what lets molto drop its Makefile `coverage` target.
 
 ## Current focus
-Milestone: M1 - moltest plugin API v1 (in moltest) · Spec: moltest docs/specs/004-plugin-api-v1.md · Next step: implement it in moltest
+Milestone: M2 - MVP · Spec: specs/001-mvp-report.md · Next step: config reader (needs moltest 0.3.0 on master: branch feat/plugin-api-v1)
 
 ## Docs
 [ROADMAP](ROADMAP.md) · [ARCHITECTURE](ARCHITECTURE.md) · [SECURITY](SECURITY.md) ·

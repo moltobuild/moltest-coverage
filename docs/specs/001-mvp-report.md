@@ -23,7 +23,7 @@ Config and tool output are untrusted text; tool started with argv, no shell;
 outputs confined to the project root (SECURITY.md).
 
 ## Tasks
-- [ ] moltest plugin API v1 available (M1)
+- [x] moltest plugin API v1 available (M1, moltest 0.3.0)
 - [ ] config.c + tests
 - [ ] gcov_parse.c + GCC and llvm fixtures
 - [ ] collect.c (flush, find, run tool)
