@@ -34,7 +34,7 @@ with a floor set: the floor applies to coverage runs.
 ## Using it
 
 ```sh
-molto add git+https://github.com/moltobuild/moltest-coverage#v0.1.0 --dev
+molto add git+https://github.com/moltobuild/moltest-coverage#v0.1.1 --dev
 ```
 
 The package is named `moltest_coverage` in `[dev-deps]`. It links against your

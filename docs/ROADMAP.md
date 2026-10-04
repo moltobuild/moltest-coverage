@@ -19,7 +19,8 @@
 - [x] `coverage.lcov` and `coverage.json`
 - [x] molto fix: a dependency's flags reach the link line (moltobuild/molto#87)
 - [x] CI on Linux, macOS, Windows (as moltest's), pinned to molto 0.47.2 (the release with #87 and #90)
-- [ ] Release 0.1.0 (tag v0.1.0; moltest pinned to v0.3.0)
+- [x] Release 0.1.0 (tag v0.1.0)
+- [ ] Release 0.1.1 (KI-2 fixed; moltest pinned to v0.3.0)
 
 ## M3 - Adoption in molto
 - [x] molto RFC-0019: a built-in `coverage` profile (molto 0.48.0)
