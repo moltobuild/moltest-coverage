@@ -72,7 +72,11 @@ jobs:
         with:
           msystem: MINGW64
           update: true
-          install: mingw-w64-x86_64-gcc
+          # git: molto resolves the moltest git dependency with `git ls-remote`,
+          # and an MSYS2 shell does not see the runner's own git.
+          install: >-
+            git
+            mingw-w64-x86_64-gcc
       - name: Install molto ${{ env.MOLTO_VERSION }}
         run: ./.github/install-molto.sh x86_64-windows.exe sha256sum
       - run: molto build
@@ -124,7 +128,11 @@ jobs:
         with:
           msystem: MINGW64
           update: true
-          install: mingw-w64-x86_64-gcc
+          # git: molto resolves the moltest git dependency with `git ls-remote`,
+          # and an MSYS2 shell does not see the runner's own git.
+          install: >-
+            git
+            mingw-w64-x86_64-gcc
       - name: Install molto ${{ env.MOLTO_VERSION }}
         run: ./.github/install-molto.sh x86_64-windows.exe sha256sum
       - run: ./.github/e2e.sh "$PWD"
