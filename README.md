@@ -6,9 +6,7 @@ Code coverage for C and C++ suites run by [moltest](https://github.com/moltobuil
 Add it to your development dependencies, build your tests with `--coverage`,
 and every `molto test` ends with a coverage report of `src/`.
 
-> **Status: MVP implemented, not released.** Needs moltest 0.3.0 and a molto
-> with moltobuild/molto#87 (a dependency's flags reaching the link line). See
-> [docs/PLAN.md](docs/PLAN.md).
+Requires molto 0.47.2 or later and moltest 0.3.0 or later (its reporter API v1).
 
 ## What it does
 
@@ -35,21 +33,26 @@ Without a coverage build it says so in one line and stays out of the way.
 ## Using it
 
 ```sh
-molto add git+https://github.com/moltobuild/moltest-coverage --dev
+molto add git+https://github.com/moltobuild/moltest-coverage#v0.1.0 --dev
 ```
 
 The package is named `moltest_coverage` in `[dev-deps]`. It links against your
 own moltest (0.3.0 or later), which must also be in `[dev-deps]`.
 
+Then measure with molto's built-in coverage profile (molto 0.48.0 or later):
+
+```sh
+molto test --profile coverage
+```
+
+With molto 0.47.2, which has no coverage profile, declare one yourself and run
+`molto test --profile custom`:
+
 ```toml
-[profile.custom]        # until molto has a built-in coverage profile
+[profile.custom]
 opt_level = 0
 debug_info = true
 flags = ["--coverage"]
-```
-
-```sh
-molto test --profile custom
 ```
 
 Optional `moltest-coverage.toml` at the project root:

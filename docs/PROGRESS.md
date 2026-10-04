@@ -23,3 +23,9 @@
 - Commit: see `git log`
 - Tests: not run on runners yet: needs the molto 0.47.1 release
 - Next: release molto 0.47.1, then CI green and moltest-coverage 0.1.0
+
+## 2026-10-04 — preparing 0.1.0
+- Done: release pipeline (#3); moltest pinned to tag v0.3.0 instead of master; README states requirements (molto 0.47.2+, moltest 0.3.0+) and the built-in coverage profile (molto 0.48.0+)
+- Commit: see `git log`
+- Tests: CI green on master (ba6c7e1)
+- Next: tag v0.1.0; molto adopts moltest and moltest-coverage

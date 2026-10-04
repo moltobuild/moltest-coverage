@@ -7,6 +7,6 @@ root = "moltest_coverage"
 
 [[package]]
 name = "moltest"
-source = "git+https://github.com/moltobuild/moltest#master"
+source = "git+https://github.com/moltobuild/moltest#v0.3.0"
 scopes = ["dev"]
 dependencies = []
