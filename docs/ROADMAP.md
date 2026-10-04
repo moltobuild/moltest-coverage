@@ -11,13 +11,14 @@
 - [x] Versioned reporter struct (moltest 0.3.0, commit 51e653d on feat/plugin-api-v1)
 
 ## M2 - MVP (spec 001)
-- [ ] `moltest-coverage.toml` reader
-- [ ] Flush counters, find `.gcda` for `src/`, run gcov / `llvm-cov gcov`, parse `.gcov`
-- [ ] Lines, branches, functions per file
-- [ ] Terminal report, worst file first, missing line ranges
-- [ ] `fail_under` (lines, branches) fails the run
-- [ ] `coverage.lcov` and `coverage.json`
-- [ ] CI on Linux, macOS, Windows (as moltest's)
+- [x] `moltest-coverage.toml` reader
+- [x] Flush counters, find `.gcda` for `src/`, run gcov / `llvm-cov gcov`, parse `.gcov`
+- [x] Lines, branches, functions per file
+- [x] Terminal report, worst file first, missing line ranges
+- [x] `fail_under` (lines, branches) fails the run
+- [x] `coverage.lcov` and `coverage.json`
+- [x] molto fix: a dependency's flags reach the link line (moltobuild/molto#87)
+- [ ] CI on Linux, macOS, Windows (as moltest's), pinned to the molto release with #87
 - [ ] Release 0.1.0
 
 ## M3 - Adoption in molto

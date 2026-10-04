@@ -13,16 +13,16 @@ std = "c2x"
 requires = ["attr_nodiscard"]
 defines = ["_DEFAULT_SOURCE", "__USE_MINGW_ANSI_STDIO=1"]
 include = ["include"]
-flags = ["-Wall", "-Wextra", "-Wpedantic"]
+# --coverage on everything: src/ calls __gcov_dump, which only a binary linked
+# with the coverage runtime has; and the plugin then measures itself.
+flags = ["-Wall", "-Wextra", "-Wpedantic", "--coverage"]
 
 [test]
 mode = "single"
 
-# A runtime dependency, not a development one: src/ registers a moltest
-# reporter, and molto keeps [dev-deps] headers out of src/. How a consumer's
-# own moltest and this one stay a single version is an open question
-# (docs/ARCHITECTURE.md).
-[deps]
+# For the tests only. src/ declares the moltest API it uses (src/moltest_api.h)
+# and links against the consumer's moltest, so there is one moltest per build.
+[dev-deps]
 moltest = { git = "https://github.com/moltobuild/moltest", branch = "master" }
 
 [profile.debug]
