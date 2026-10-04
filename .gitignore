@@ -1,0 +1,12 @@
+# Build output
+/build/
+
+# The compilation database every build writes (derived, never edited by hand)
+/compile_commands.json
+
+# Workspace database (molto-owned metadata)
+/.bin/
+
+*.o
+*.log
+graphify-out/

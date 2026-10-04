@@ -1,0 +1,38 @@
+# Roadmap
+
+## M0 - Repository and design
+- [x] Repository, manifest, docs scaffold
+- [x] ADR 0001 in-process plugin, ADR 0002 gcov text as the data source, ADR 0003 config file
+- [x] Spec 001 (MVP report)
+
+## M1 - moltest plugin API v1 (work in moltest, its spec 004)
+- [ ] Several reporters at once, registered from a constructor
+- [ ] A reporter can fail the run (needed by `fail_under`)
+- [ ] Versioned reporter struct
+
+## M2 - MVP (spec 001)
+- [ ] `moltest-coverage.toml` reader
+- [ ] Flush counters, find `.gcda` for `src/`, run gcov / `llvm-cov gcov`, parse `.gcov`
+- [ ] Lines, branches, functions per file
+- [ ] Terminal report, worst file first, missing line ranges
+- [ ] `fail_under` (lines, branches) fails the run
+- [ ] `coverage.lcov` and `coverage.json`
+- [ ] CI on Linux, macOS, Windows (as moltest's)
+- [ ] Release 0.1.0
+
+## M3 - Adoption in molto
+- [ ] molto RFC: a built-in `coverage` profile (today: `[profile.custom] flags = ["--coverage"]`)
+- [ ] molto replaces `make coverage` and `coverage.floor` with moltest-coverage
+
+## Non-goals
+- Instrumenting code itself: the compiler does that, the build system asks for it.
+- Bundling gcov or llvm-cov.
+- Covering tests/ or dependencies: what is measured is the code that ships.
+
+## Backlog
+- HTML report; Cobertura XML
+- Exclusion markers (`LCOV_EXCL_LINE`, `LCOV_EXCL_START`/`STOP`)
+- Per-test contexts: which test executed each line (`__gcov_reset`/`__gcov_dump` around each test)
+- Combine runs (several platforms or profiles) into one report
+- Diff coverage against a git ref
+- Clang source-based coverage (`-fprofile-instr-generate`, `llvm-cov export`)
