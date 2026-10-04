@@ -8,5 +8,5 @@ root = "moltest_coverage"
 [[package]]
 name = "moltest"
 source = "git+https://github.com/moltobuild/moltest#master"
-scopes = ["runtime"]
+scopes = ["dev"]
 dependencies = []

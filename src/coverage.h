@@ -160,7 +160,8 @@ void cov_report_sort(cov_report *report);
                                cov_report *report, char *tool_used, size_t tool_size, char *err,
                                size_t err_size);
 
-/* Whether this binary was built with --coverage (its runtime is linked). */
-[[nodiscard]] bool cov_runtime_present(void);
+/* Delete every .gcda under `<profile_dir>/obj`: what a run reports is that
+   run, not the sum of every run since the last clean build. */
+void cov_erase(const char *profile_dir);
 
 #endif /* MOLTEST_COVERAGE_INTERNAL_H */

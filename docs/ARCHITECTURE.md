@@ -42,10 +42,12 @@ out) and are tested without a compiler; `collect` is tested end to end.
   measured is not met.
 
 ## Open questions
-- **moltest version coupling.** molto allows one version per package, so
-  moltest-coverage cannot pin its own moltest; it has to use the consumer's.
-  Likely: the recipe declares no `[deps]` on moltest and requires the consumer
-  to have it, with the plugin API version checked at registration.
+- **moltest version coupling — resolved.** molto allows one version per
+  package, so the plugin links against the consumer's moltest: `src/` declares
+  the reporter API v1 it uses (`src/moltest_api.h`) instead of including
+  moltest.h, moltest refuses it by name if its API moves on, and
+  `tests/test_moltest_api.c` checks the copy field by field.
+- **The coverage runtime in a profile without `--coverage`** (KNOWN_ISSUES KI-1).
 - **Tool choice.** Derived from the compiler that built the plugin
   (`__clang__` → `llvm-cov gcov`, GCC → `gcov-<major>` then `gcov`), overridable
   in the config. To validate on Windows (MSYS2 gcc).
