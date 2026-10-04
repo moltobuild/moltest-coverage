@@ -30,7 +30,7 @@ outputs confined to the project root (SECURITY.md).
 - [x] render.c (text, lcov, JSON)
 - [x] register.c and `.github/e2e.sh`
 - [x] README usage
-- [ ] CI on Linux, macOS, Windows (after molto#87 is released)
+- [x] CI on Linux, macOS, Windows (`.github/workflows/ci.yml`, molto 0.47.1)
 
 ## Out of scope
 HTML, Cobertura, exclusion markers, per-test contexts, combine (Backlog).

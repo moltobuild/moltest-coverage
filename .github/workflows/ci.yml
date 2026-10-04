@@ -1,0 +1,155 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+# A push that supersedes another cancels it: the result of a commit that is no
+# longer the tip settles nothing.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# The molto that builds and consumes this plugin, pinned like a dependency.
+# 0.47.1 is the first release where a dependency's flags reach the link line
+# (moltobuild/molto#87), which a consumer of this plugin needs: before it, a
+# project with moltest_coverage in [dev-deps] does not link outside a coverage
+# profile. C_COMPILER skips pickup, so a red is this repository's.
+env:
+  MOLTO_VERSION: "0.47.1"
+  MOLTO_RELEASES: https://github.com/moltobuild/molto/releases/download
+  LLVM_VERSION: "19"
+
+jobs:
+  # The suite, which also exercises collection for real: the plugin is linked
+  # into its own tests and reports their coverage at the end of the run.
+  test:
+    name: Test (${{ matrix.os }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: linux
+            runner: ubuntu-24.04
+            asset: x86_64-linux
+            cc: gcc
+            sha: sha256sum
+          - os: macos
+            runner: macos-14
+            asset: arm64-macos
+            cc: clang
+            sha: shasum -a 256
+    env:
+      C_COMPILER: ${{ matrix.cc }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Install molto ${{ env.MOLTO_VERSION }}
+        run: ./.github/install-molto.sh "${{ matrix.asset }}" "${{ matrix.sha }}"
+      - run: molto build
+      - name: molto test (ends with the plugin's report on itself)
+        run: molto test | tee test.log
+      - name: The plugin reported
+        run: grep -q '^TOTAL ' test.log
+
+  # Windows apart because its shell is: MSYS2 for the gcc, and the gcov, it
+  # brings. This is where collect.c's CreateProcess path runs.
+  test-windows:
+    name: Test (windows)
+    runs-on: windows-2022
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: msys2 {0}
+    env:
+      C_COMPILER: gcc
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: msys2/setup-msys2@v2.32.0
+        with:
+          msystem: MINGW64
+          update: true
+          install: mingw-w64-x86_64-gcc
+      - name: Install molto ${{ env.MOLTO_VERSION }}
+        run: ./.github/install-molto.sh x86_64-windows.exe sha256sum
+      - run: molto build
+      - name: molto test (ends with the plugin's report on itself)
+        run: molto test | tee test.log
+      - name: The plugin reported
+        run: grep -q '^TOTAL ' test.log
+
+  # The plugin as a user meets it: a `molto new` library measured three ways
+  # (spec 001 AC1, AC3, AC5-AC8).
+  e2e:
+    name: E2E (${{ matrix.os }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: linux
+            runner: ubuntu-24.04
+            asset: x86_64-linux
+            cc: gcc
+            sha: sha256sum
+          - os: macos
+            runner: macos-14
+            asset: arm64-macos
+            cc: clang
+            sha: shasum -a 256
+    env:
+      C_COMPILER: ${{ matrix.cc }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Install molto ${{ env.MOLTO_VERSION }}
+        run: ./.github/install-molto.sh "${{ matrix.asset }}" "${{ matrix.sha }}"
+      - run: ./.github/e2e.sh "$GITHUB_WORKSPACE"
+
+  e2e-windows:
+    name: E2E (windows)
+    runs-on: windows-2022
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: msys2 {0}
+    env:
+      C_COMPILER: gcc
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: msys2/setup-msys2@v2.32.0
+        with:
+          msystem: MINGW64
+          update: true
+          install: mingw-w64-x86_64-gcc
+      - name: Install molto ${{ env.MOLTO_VERSION }}
+        run: ./.github/install-molto.sh x86_64-windows.exe sha256sum
+      - run: ./.github/e2e.sh "$PWD"
+
+  # Formatting and static analysis with the LLVM molto's own CI pins. A gate
+  # from the first commit: this code was formatted and lint-clean from the start.
+  style:
+    name: Style
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      C_COMPILER: gcc
+      MOLTO_CLANG_FORMAT: /usr/bin/clang-format-19
+      MOLTO_CLANG_TIDY: /usr/bin/clang-tidy-19
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Install LLVM ${{ env.LLVM_VERSION }}
+        run: |
+          wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key \
+            | sudo tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc >/dev/null
+          sudo add-apt-repository -y \
+            "deb http://apt.llvm.org/noble/ llvm-toolchain-noble-${LLVM_VERSION} main"
+          sudo apt-get install -y -o Acquire::Retries=3 \
+            clang-format-${LLVM_VERSION} clang-tidy-${LLVM_VERSION}
+      - name: Install molto ${{ env.MOLTO_VERSION }}
+        run: ./.github/install-molto.sh x86_64-linux sha256sum
+      - run: molto fmt --check
+      - run: molto lint

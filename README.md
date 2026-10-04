@@ -1,5 +1,7 @@
 # moltest-coverage
 
+[![CI](https://github.com/moltobuild/moltest-coverage/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/moltobuild/moltest-coverage/actions/workflows/ci.yml)
+
 Code coverage for C and C++ suites run by [moltest](https://github.com/moltobuild/moltest).
 Add it to your development dependencies, build your tests with `--coverage`,
 and every `molto test` ends with a coverage report of `src/`.
