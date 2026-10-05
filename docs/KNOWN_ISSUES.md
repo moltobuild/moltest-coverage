@@ -1,15 +1,17 @@
 # Known issues
 
-## KI-3 A suite of several executables fails its floor at full coverage — Status: Open
+## KI-3 A suite of several executables fails its floor at full coverage — Status: Fixed, needs molto 0.50.0
 - Repro: `mode = "per_file"`, two test files that each cover one of two
   functions, `fail_under = 90`, a coverage profile.
 - Expected: one report at 100%, the run passes. Actual: each executable reports
   50% and fails the floor; the second also reports the first's lines missing.
 - Cause: every executable erases the `.gcda` files in `on_run_start` and
   reports and judges in `on_run_end`; it cannot tell the first or last of a run.
-- Test: `.github/e2e.sh` step 4 asserts the failure; flip it when fixed.
+- Test: `.github/e2e.sh` step 4: one report at 100%, the run passes (spec 002).
 - Fix: molto RFC-0020 tells each executable its place (`MOLTO_TEST_INDEX`,
   `MOLTO_TEST_COUNT`); erase only in the first, report only in the last (ADR 0004).
+- Fixed: `cov_position_parse` and register.c (spec 002). Resolved once CI runs
+  on molto 0.50.0, the first release that sets the variables.
 
 ## KI-2 A floor failed every ordinary `molto test` — Status: Resolved (0.1.1)
 - Repro: `fail_under` in moltest-coverage.toml, then `molto test` (no coverage profile).

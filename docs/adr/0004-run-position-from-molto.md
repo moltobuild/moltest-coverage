@@ -1,4 +1,4 @@
-# 0004 Erase in the first executable, report in the last — Status: Proposed
+# 0004 Erase in the first executable, report in the last — Status: Accepted
 Date: 2026-10-05
 
 ## Context

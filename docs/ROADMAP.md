@@ -29,9 +29,10 @@
 
 ## M4 - Several executables (KI-3, ADR 0004)
 - [x] KI-3 logged; e2e step 4 reproduces it with a `per_file` suite
-- [ ] molto RFC-0020 accepted and released
-- [ ] Erase only in the first executable, report and judge only in the last
-- [ ] e2e step 4 passes at 100%; ADR 0004 Accepted, KI-3 resolved, release 0.2.0
+- [x] molto RFC-0020 accepted and implemented (moltobuild/molto#97)
+- [x] Erase only in the first executable, report and judge only in the last (spec 002)
+- [x] e2e step 4 passes at 100% on molto master; ADR 0004 Accepted
+- [ ] CI on molto 0.50.0 (also closes M3's bump); KI-3 resolved, release 0.2.0
 
 ## Non-goals
 - Instrumenting code itself: the compiler does that, the build system asks for it.

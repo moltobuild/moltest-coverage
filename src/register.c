@@ -12,9 +12,11 @@
  *
  * on_run_start reads the configuration and erases the last run's data;
  * on_run_end flushes, collects, prints, writes the files and applies the
- * floors. A problem of the plugin's own (a bad config, no gcov) fails the run
- * through moltest_fail_run: a floor that silently stops being checked is worse
- * than a red build that says why.
+ * floors. In a run of several executables (molto RFC-0020, ADR 0004) only the
+ * first erases and only the last does the rest: every one between adds its
+ * counters to the same files and leaves the judging to the last. A problem of the plugin's own (a
+ * bad config, no gcov) fails the run through moltest_fail_run: a floor that silently stops being
+ * checked is worse than a red build that says why.
  */
 
 #define ERR_SIZE 512
@@ -24,12 +26,18 @@ static bool config_ok;
 static char config_err[ERR_SIZE];
 static char profile_dir[1024];
 static bool have_profile_dir;
+static cov_position position;
 
 static void on_run_start(size_t files, size_t tests, void *ctx) {
     (void)files, (void)tests, (void)ctx;
+    position = cov_position_parse(getenv(COV_INDEX_VAR), getenv(COV_COUNT_VAR));
+    if(!position.valid)
+        printf("moltest_coverage: %s and %s do not say where this executable stands; "
+               "measuring it as a run of its own\n",
+               COV_INDEX_VAR, COV_COUNT_VAR);
     config_ok = cov_config_load(&config, config_err, sizeof config_err);
     have_profile_dir = cov_profile_dir(moltest_self_path(), profile_dir, sizeof profile_dir);
-    if(have_profile_dir)
+    if(have_profile_dir && position.first)
         cov_erase(profile_dir);
 }
 
@@ -74,6 +82,13 @@ static void on_run_end(const cov_moltest_summary *summary, void *ctx) {
     }
     if(!have_profile_dir) {
         fail_runf("moltest_coverage: cannot tell where this test binary's build lives");
+        return;
+    }
+    /* Not the last: what this executable ran is in the counters, and judging
+       it alone would judge part of the run as the whole of it (KI-3). */
+    if(!position.last) {
+        printf("\nmoltest_coverage: executable %zu of %zu; the report comes with the last\n",
+               position.index, position.count);
         return;
     }
 

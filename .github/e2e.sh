@@ -7,8 +7,8 @@
 #      it is not a coverage build, applies no floor                     (AC8)
 #   2. a coverage profile: prints the table for src/ only              (AC1, AC3)
 #   3. a floor it misses, with lcov and JSON: exit 1, files written    (AC5-AC7)
-#   4. a per_file suite, two executables that cover 100% together,
-#      still fails: each one erases and judges alone                  (KI-3)
+#   4. a per_file suite, two executables that cover 100% together:
+#      one report, at 100%, after the last                (spec 002 AC4, AC5)
 #
 #   e2e.sh <moltest-coverage checkout>
 set -eu
@@ -51,12 +51,10 @@ grep -q "run failed: moltest_coverage: line coverage .* is under fail_under = 99
 grep -q "^SF:src/e2e_lib.c$" build/coverage.lcov || fail "lcov has no record for src/e2e_lib.c"
 grep -q '"totals"' build/coverage.json || fail "JSON has no totals"
 
-echo "--- 4. per_file: two executables (KI-3)"
+echo "--- 4. per_file: two executables"
 # Each test file covers one of two functions, so the suite covers every line.
-# Today each executable erases the counters of the one before and applies the
-# floor to its own half, so the run fails. This asserts that, so CI stays green
-# while it holds and turns red the day it stops: then flip it to expect a
-# passing run at 100% (molto RFC-0020, MOLTO_TEST_INDEX / MOLTO_TEST_COUNT).
+# molto tells each executable its place (RFC-0020): the first erases, the last
+# reports. Before KI-3 was fixed each one erased and judged alone, and failed.
 cd ..
 molto new e2e_two
 cd e2e_two
@@ -87,11 +85,11 @@ rm -f tests/*.c
 printf '#include <moltest.h>\n#include <e2e_two.h>\nDESCRIBE(a) { EXPECT_EQ(2, e2e_two_a(1)); }\n' > tests/test_a.c
 printf '#include <moltest.h>\n#include <e2e_two.h>\nDESCRIBE(b) { EXPECT_EQ(1, e2e_two_b(2)); }\n' > tests/test_b.c
 printf 'fail_under = 90\n' > moltest-coverage.toml
-if molto test --profile custom > run4.txt 2>&1; then
-    cat run4.txt
-    fail "KI-3 no longer reproduces: per_file coverage passes; update this step and close KI-3"
-fi
-[ "$(grep -c 'is under fail_under = 90.0' run4.txt)" -eq 2 ] ||
-    { cat run4.txt; fail "expected both executables to fail the floor alone (KI-3)"; }
+molto test --profile custom > run4.txt 2>&1 || { cat run4.txt; fail "a per_file suite at 100% failed (KI-3)"; }
+cat run4.txt
+[ "$(grep -c '^TOTAL ' run4.txt)" -eq 1 ] || fail "expected one report, after the last executable"
+grep -qE '^TOTAL +[0-9]+/[0-9]+ +100.0%' run4.txt || fail "the report is not the whole suite's 100%"
+grep -q 'executable 1 of 2; the report comes with the last' run4.txt ||
+    fail "the first executable did not leave the report to the last"
 
 echo "e2e: ok"

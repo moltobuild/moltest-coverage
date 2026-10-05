@@ -7,7 +7,7 @@ coverage falls under a configured floor. The first community-style plugin of
 moltest, and what lets molto drop its Makefile `coverage` target.
 
 ## Current focus
-Milestone: M4 - Several executables · Issue: KI-3 · ADR 0004 (Proposed) · Next step: molto RFC-0020 (M3's CI bump is still open)
+Milestone: M4 - Several executables · Spec: specs/002-several-executables.md (done) · Next step: CI on molto 0.50.0, then release 0.2.0
 
 ## Docs
 [ROADMAP](ROADMAP.md) · [ARCHITECTURE](ARCHITECTURE.md) · [SECURITY](SECURITY.md) ·

@@ -48,3 +48,10 @@
   ADR 0004 proposed, M4 added; molto RFC-0020 (moltobuild/molto#95) merged as Draft
 - Tests: e2e passes locally, step 4 asserts the failure
 - Next: molto RFC-0020 accepted and implemented, then ADR 0004 here
+
+## 2026-10-05 — spec 002: several executables, one measurement
+- Done: `cov_position_parse` (src/position.c) reads molto's MOLTO_TEST_INDEX /
+  MOLTO_TEST_COUNT (RFC-0020); only the first executable erases, only the last
+  reports and judges; e2e step 4 flipped to expect one report at 100%; ADR 0004 Accepted
+- Tests: 20 self-tests pass (3 new); e2e passes on molto master; fmt and lint clean
+- Next: molto 0.50.0 released, bump the CI's MOLTO_VERSION, resolve KI-3, release 0.2.0
