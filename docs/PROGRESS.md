@@ -60,3 +60,11 @@
 - Done: CI on molto 0.50.0, e2e on the built-in coverage profile (closes M3's bump); KI-3 resolved
 - Tests: CI green on Linux, macOS, Windows (Test, E2E, Style); e2e step 4 at 100%
 - Next: release 0.2.0
+
+## 2026-10-05 — KI-4: test binaries in a subfolder of tests/
+- Done: `cov_profile_dir` finds `build/<profile>` from the right instead of cutting
+  two components; a last executable under `tests/units/` measured nothing and
+  skipped the floor. Found with molto's first isolated test.
+- Tests: 25 self-tests (5 new in tests/test_profile_dir.c); e2e red on the old
+  code, green on the fix; fmt and lint clean
+- Next: release 0.2.1, then molto's [dev-deps]
