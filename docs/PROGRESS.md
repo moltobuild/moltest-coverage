@@ -41,3 +41,10 @@
 - Commit: see `git log`
 - Tests: molto's CI green on Linux, macOS and Windows with this plugin linked into its suite
 - Next: CI on molto 0.48.0 and `--profile coverage` in e2e
+
+## 2026-10-05 — M4 start: KI-3
+- Done: found that a `per_file` suite fails its floor at full coverage (each
+  executable erases and judges alone); KI-3 logged, e2e step 4 reproduces it,
+  ADR 0004 proposed, M4 added; molto RFC-0020 (moltobuild/molto#95) merged as Draft
+- Tests: e2e passes locally, step 4 asserts the failure
+- Next: molto RFC-0020 accepted and implemented, then ADR 0004 here

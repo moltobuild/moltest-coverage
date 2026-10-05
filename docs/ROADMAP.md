@@ -27,6 +27,12 @@
 - [x] molto replaces `make coverage` and `coverage.floor` with moltest-coverage (moltobuild/molto#92): `fail_under = 79.5` in its moltest-coverage.toml, the coverage job runs `make coverage` → `molto test --profile coverage`
 - [ ] Bump the CI's molto to 0.48.0 and run e2e with `--profile coverage` instead of a custom profile
 
+## M4 - Several executables (KI-3, ADR 0004)
+- [x] KI-3 logged; e2e step 4 reproduces it with a `per_file` suite
+- [ ] molto RFC-0020 accepted and released
+- [ ] Erase only in the first executable, report and judge only in the last
+- [ ] e2e step 4 passes at 100%; ADR 0004 Accepted, KI-3 resolved, release 0.2.0
+
 ## Non-goals
 - Instrumenting code itself: the compiler does that, the build system asks for it.
 - Bundling gcov or llvm-cov.
