@@ -168,4 +168,25 @@ void cov_report_sort(cov_report *report);
    run, not the sum of every run since the last clean build. */
 void cov_erase(const char *profile_dir);
 
+/* ------------------------------------------------------------------ */
+/* Place in the run: molto RFC-0020 (ADR 0004)                          */
+/* ------------------------------------------------------------------ */
+
+#define COV_INDEX_VAR "MOLTO_TEST_INDEX"
+#define COV_COUNT_VAR "MOLTO_TEST_COUNT"
+
+/* Where this test executable stands in the run. `first` erases the counters
+   of the last run; `last` reports and applies the floors. */
+typedef struct {
+    bool first;
+    bool last;
+    bool valid;   /* false: the variables were set and did not parse */
+    size_t index; /* 0 when not told */
+    size_t count;
+} cov_position;
+
+/* From the two variables' values, NULL when unset. Both unset, or anything
+   that does not parse, is a run of its own: first and last at once. */
+cov_position cov_position_parse(const char *index, const char *count);
+
 #endif /* MOLTEST_COVERAGE_INTERNAL_H */

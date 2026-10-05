@@ -9,8 +9,8 @@ target = "any"
 [artifacts]
 type = "source"
 std = "c2x"
-sources = ["src/collect.c", "src/config.c", "src/gcov_parse.c", "src/register.c",
-           "src/render.c", "src/text.c"]
+sources = ["src/collect.c", "src/config.c", "src/gcov_parse.c", "src/position.c",
+           "src/register.c", "src/render.c", "src/text.c"]
 include = ["include"]
 # Interface: the consumer's test binary has to be linked with the coverage
 # runtime, because the plugin calls __gcov_dump to flush the counters before

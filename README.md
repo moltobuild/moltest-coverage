@@ -76,6 +76,12 @@ reports. The plugin is itself compiled and linked with `--coverage`, which is
 what puts the coverage runtime in every test binary that links it
 ([ARCHITECTURE](docs/ARCHITECTURE.md)).
 
+A suite of several executables (`mode = "per_file"`) is one run: molto tells
+each executable its place (`MOLTO_TEST_INDEX` of `MOLTO_TEST_COUNT`, molto
+RFC-0020), so only the first erases and only the last reports and applies the
+floors, over what all of them ran. That needs molto 0.50.0 or later; with an
+older molto each executable is measured, and judged, on its own (KI-3).
+
 ## License
 
 Apache-2.0; see [LICENSE](LICENSE) and [NOTICE](NOTICE).

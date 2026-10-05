@@ -10,14 +10,9 @@ molto test
 [dev-deps]
 moltest = { git = "https://github.com/moltobuild/moltest", branch = "master" }
 moltest_coverage = { path = "../moltest-coverage" }
-
-[profile.custom]          # until molto has a built-in coverage profile
-opt_level = 0
-debug_info = true
-flags = ["--coverage"]
 ```
 ```sh
-molto test --profile custom
+molto test --profile coverage    # molto's built-in profile (0.48.0 or later)
 ```
 
 ## Releasing

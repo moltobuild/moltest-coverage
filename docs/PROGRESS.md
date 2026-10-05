@@ -41,3 +41,22 @@
 - Commit: see `git log`
 - Tests: molto's CI green on Linux, macOS and Windows with this plugin linked into its suite
 - Next: CI on molto 0.48.0 and `--profile coverage` in e2e
+
+## 2026-10-05 — M4 start: KI-3
+- Done: found that a `per_file` suite fails its floor at full coverage (each
+  executable erases and judges alone); KI-3 logged, e2e step 4 reproduces it,
+  ADR 0004 proposed, M4 added; molto RFC-0020 (moltobuild/molto#95) merged as Draft
+- Tests: e2e passes locally, step 4 asserts the failure
+- Next: molto RFC-0020 accepted and implemented, then ADR 0004 here
+
+## 2026-10-05 — spec 002: several executables, one measurement
+- Done: `cov_position_parse` (src/position.c) reads molto's MOLTO_TEST_INDEX /
+  MOLTO_TEST_COUNT (RFC-0020); only the first executable erases, only the last
+  reports and judges; e2e step 4 flipped to expect one report at 100%; ADR 0004 Accepted
+- Tests: 20 self-tests pass (3 new); e2e passes on molto master; fmt and lint clean
+- Next: molto 0.50.0 released, bump the CI's MOLTO_VERSION, resolve KI-3, release 0.2.0
+
+## 2026-10-05 — KI-3 resolved
+- Done: CI on molto 0.50.0, e2e on the built-in coverage profile (closes M3's bump); KI-3 resolved
+- Tests: CI green on Linux, macOS, Windows (Test, E2E, Style); e2e step 4 at 100%
+- Next: release 0.2.0

@@ -9,13 +9,13 @@
 | Lint | `molto lint` |
 
 ## CI
-`.github/workflows/ci.yml`, molto pinned in `MOLTO_VERSION` (0.47.2, the first
-with moltobuild/molto#87 and #90), installed by `.github/install-molto.sh`:
+`.github/workflows/ci.yml`, molto pinned in `MOLTO_VERSION` (0.50.0, the first
+that tells each test executable its place in the run, RFC-0020), installed by `.github/install-molto.sh`:
 
 | Job | Runs on | Checks |
 |---|---|---|
 | Test | Linux (gcc), macOS (clang), Windows (MSYS2 gcc) | `molto build`, `molto test`, and that the plugin printed its own report |
-| E2E | the same three | `.github/e2e.sh`: a `molto new` library, normal run, coverage run, missed floor with lcov and JSON |
+| E2E | the same three | `.github/e2e.sh`: a `molto new` library, normal run, coverage run, missed floor with lcov and JSON; a `per_file` suite of two executables passes with one report at 100% (needs molto 0.50.0) |
 | Style | Linux, LLVM 19 | `molto fmt --check`, `molto lint` (a gate) |
 
 `.github/workflows/release.yml` runs on a `v*` tag: the tag must equal the

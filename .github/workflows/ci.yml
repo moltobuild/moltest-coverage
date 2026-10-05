@@ -18,12 +18,12 @@ concurrency:
   cancel-in-progress: true
 
 # The molto that builds and consumes this plugin, pinned like a dependency.
-# 0.47.2 is the first release with both fixes this plugin needs: a
-# dependency's flags reach the link line (moltobuild/molto#87, 0.47.1), and a
-# git dependency builds on Windows (moltobuild/molto#90). C_COMPILER skips
-# pickup, so a red is this repository's.
+# 0.50.0 is the first release that tells each test executable its place in
+# the run (RFC-0020, KI-3); it also has the built-in coverage profile (0.48.0)
+# and the earlier fixes this plugin needs (moltobuild/molto#87, #90).
+# C_COMPILER skips pickup, so a red is this repository's.
 env:
-  MOLTO_VERSION: "0.47.2"
+  MOLTO_VERSION: "0.50.0"
   MOLTO_RELEASES: https://github.com/moltobuild/molto/releases/download
   LLVM_VERSION: "19"
 
