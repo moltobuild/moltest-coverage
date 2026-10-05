@@ -33,7 +33,8 @@
 - [x] Erase only in the first executable, report and judge only in the last (spec 002)
 - [x] e2e step 4 passes at 100% on molto master; ADR 0004 Accepted
 - [x] CI on molto 0.50.0 (also closes M3's bump)
-- [ ] KI-3 resolved, release 0.2.0
+- [x] KI-3 resolved
+- [ ] Release 0.2.0
 
 ## Non-goals
 - Instrumenting code itself: the compiler does that, the build system asks for it.

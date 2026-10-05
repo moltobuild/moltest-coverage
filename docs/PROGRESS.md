@@ -55,3 +55,8 @@
   reports and judges; e2e step 4 flipped to expect one report at 100%; ADR 0004 Accepted
 - Tests: 20 self-tests pass (3 new); e2e passes on molto master; fmt and lint clean
 - Next: molto 0.50.0 released, bump the CI's MOLTO_VERSION, resolve KI-3, release 0.2.0
+
+## 2026-10-05 — KI-3 resolved
+- Done: CI on molto 0.50.0, e2e on the built-in coverage profile (closes M3's bump); KI-3 resolved
+- Tests: CI green on Linux, macOS, Windows (Test, E2E, Style); e2e step 4 at 100%
+- Next: release 0.2.0
