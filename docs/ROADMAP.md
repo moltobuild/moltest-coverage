@@ -36,6 +36,10 @@
 - [x] KI-3 resolved
 - [ ] Release 0.2.0
 
+## M5 - Nested test binaries (KI-4)
+- [x] KI-4: the profile of a binary in a subfolder of tests/; unit tests and e2e step 4
+- [ ] Release 0.2.1
+
 ## Non-goals
 - Instrumenting code itself: the compiler does that, the build system asks for it.
 - Bundling gcov or llvm-cov.

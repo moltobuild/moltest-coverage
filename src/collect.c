@@ -159,22 +159,44 @@ char *cov_run_capture(const char *const argv[], int *status) {
 
 static bool is_separator(char c) { return c == '/' || c == '\\'; }
 
+/* Whether the `length` bytes at `text` are exactly `word`. */
+static bool component_is(const char *text, size_t length, const char *word) {
+    return length == strlen(word) && strncmp(text, word, length) == 0;
+}
+
+/* Where the component ending just before `end` begins. */
+static size_t component_start(const char *path, size_t end) {
+    while(end > 0 && !is_separator(path[end - 1]))
+        end--;
+    return end;
+}
+
 bool cov_profile_dir(const char *self, char *out, size_t size) {
-    /* <...>/build/<profile>/tests/<binary> → <...>/build/<profile> */
+    /* <...>/build/<profile>/tests/<...>/<binary> → <...>/build/<profile>.
+       The binary can sit in a subfolder of tests/, mirroring its source's
+       (per_file, molto's isolated tests), so the profile is not a fixed number
+       of cuts away (KI-4). It is found from the right as a "tests" component
+       preceded by "build/<profile>", which a folder of tests/ named build or
+       tests does not imitate. */
     if(self == NULL || strlen(self) >= size)
         return false;
     snprintf(out, size, "%s", self);
-    for(int cut = 0; cut < 2; cut++) {
-        char *last = NULL;
-        for(char *c = out; *c != '\0'; c++) {
-            if(is_separator(*c))
-                last = c;
-        }
-        if(last == NULL)
-            return false;
-        *last = '\0';
+    for(size_t i = strlen(out); i-- > 0;) {
+        if(!is_separator(out[i]))
+            continue;
+        const char *tests = out + i + 1;
+        if(!component_is(tests, strcspn(tests, "/\\"), "tests"))
+            continue;
+        const size_t profile = component_start(out, i);
+        if(profile == i || profile == 0)
+            continue;
+        const size_t build = component_start(out, profile - 1);
+        if(!component_is(out + build, profile - 1 - build, "build"))
+            continue;
+        out[i] = '\0';
+        return true;
     }
-    return out[0] != '\0';
+    return false;
 }
 
 static bool ends_with(const char *text, const char *suffix) {

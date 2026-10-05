@@ -7,8 +7,9 @@
 #      it is not a coverage build, applies no floor                     (AC8)
 #   2. a coverage profile: prints the table for src/ only              (AC1, AC3)
 #   3. a floor it misses, with lcov and JSON: exit 1, files written    (AC5-AC7)
-#   4. a per_file suite, two executables that cover 100% together:
-#      one report, at 100%, after the last                (spec 002 AC4, AC5)
+#   4. a per_file suite, two executables that cover 100% together, one in a
+#      subfolder of tests/: one report, at 100%, after the last
+#                                                  (spec 002 AC4, AC5; KI-4)
 #
 #   e2e.sh <moltest-coverage checkout>
 set -eu
@@ -69,7 +70,11 @@ int e2e_two_b(int x) {
 C
 rm -f tests/*.c
 printf '#include <moltest.h>\n#include <e2e_two.h>\nDESCRIBE(a) { EXPECT_EQ(2, e2e_two_a(1)); }\n' > tests/test_a.c
-printf '#include <moltest.h>\n#include <e2e_two.h>\nDESCRIBE(b) { EXPECT_EQ(1, e2e_two_b(2)); }\n' > tests/test_b.c
+# In a subfolder: its binary is build/<profile>/tests/units/test_b. It sorts
+# after test_a, so it runs last and is the one that reports: it has to find its
+# profile from there (KI-4).
+mkdir -p tests/units
+printf '#include <moltest.h>\n#include <e2e_two.h>\nDESCRIBE(b) { EXPECT_EQ(1, e2e_two_b(2)); }\n' > tests/units/test_b.c
 printf 'fail_under = 90\n' > moltest-coverage.toml
 molto test --profile coverage > run4.txt 2>&1 || { cat run4.txt; fail "a per_file suite at 100% failed (KI-3)"; }
 cat run4.txt

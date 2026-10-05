@@ -1,5 +1,17 @@
 # Known issues
 
+## KI-4 A test binary in a subfolder of tests/ measured nothing — Status: Resolved (0.2.1)
+- Repro: a coverage run whose last executable is in a subfolder of `tests/`
+  (`per_file` with `tests/units/test_b.c`, or a molto isolated test), a floor set.
+- Expected: the report and the floor. Actual: `src not built for coverage`, no
+  report, and the floor silently not applied: the run passed.
+- Cause: `cov_profile_dir` cut two components off the binary's path, which is
+  `build/<profile>` only for a binary directly under `tests/`.
+- Found adopting molto's first isolated test (`tests/services/test_source_service_git`).
+- Fix: the profile is found from the right as `tests` preceded by `build/<profile>`.
+  Tests: `tests/test_profile_dir.c`; `.github/e2e.sh` step 4 puts its last
+  executable in `tests/units/` (red before the fix).
+
 ## KI-3 A suite of several executables fails its floor at full coverage — Status: Resolved (0.2.0)
 - Repro: `mode = "per_file"`, two test files that each cover one of two
   functions, `fail_under = 90`, a coverage profile.
