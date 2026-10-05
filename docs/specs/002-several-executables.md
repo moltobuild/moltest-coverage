@@ -23,7 +23,7 @@ else is rejected and the safe behaviour (a run of its own) applies.
 - [x] `cov_position_parse` and its unit tests (AC1-AC3)
 - [x] register.c: erase in the first, report in the last (AC4)
 - [x] e2e step 4 expects a pass at 100% (AC5); passes on molto master
-- [ ] CI on molto 0.50.0, the first release with RFC-0020
+- [x] CI on molto 0.50.0, the first release with RFC-0020
 - [ ] KI-3 resolved, ADR 0004 Accepted, release 0.2.0
 
 ## Out of scope
