@@ -35,3 +35,9 @@
 - Commit: see `git log`
 - Tests: unit suite and `.github/e2e.sh` (step 1 now with a floor) pass with molto 0.48.0
 - Next: tag v0.1.1; molto pins it
+
+## 2026-10-05 — adopted by molto
+- Done: 0.1.1 released; molto (#92) measures itself with it: moltest_coverage v0.1.1 in [dev-deps], fail_under 79.5, make coverage → molto test --profile coverage (79.9% on the Linux runner)
+- Commit: see `git log`
+- Tests: molto's CI green on Linux, macOS and Windows with this plugin linked into its suite
+- Next: CI on molto 0.48.0 and `--profile coverage` in e2e
