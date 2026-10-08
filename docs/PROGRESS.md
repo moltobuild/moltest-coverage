@@ -76,3 +76,9 @@
 - Security: no runtime code, public API or input handling changed.
 - Validation: package check, self-test (25 tests, 191 assertions), consumer e2e and shell syntax checks passed with Clang on macOS.
 - CI bootstrap updated to include the Windows read-only Git object pruning fix.
+
+## 2026-10-08 — spec 004: moltest 0.4.0 compatibility
+- Done: manifest, lockfile, CI and consumer fixtures select the same v0.4.0 tag; dependency docs and examples updated.
+- Validation: 25 tests, 191 assertions; coverage profile, release build, consumer e2e, format and lint passed on macOS. Both plugins also passed together in a v0.4.0 consumer.
+- Security: reference-only migration; plugin API, input handling and fixed buffer bounds are unchanged.
+- Next: merge the PR and publish a new release; then update Molto and Pickup to the compatible plugin tags.

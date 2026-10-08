@@ -24,7 +24,7 @@ concurrency:
 # C_COMPILER skips pickup, so a red is this repository's.
 env:
   MOLTO_VERSION: "0.50.0"
-  MOLTEST_REF: "9e0611007d3b1ccebd589273dd14a7a229265c3c"
+  MOLTEST_REF: "v0.4.0"
   MOLTO_SOURCE_REF: "9da5c0c4b53a0135c0964403c9846317a2236ebc"
   MOLTO_RELEASES: https://github.com/moltobuild/molto/releases/download
   LLVM_VERSION: "19"

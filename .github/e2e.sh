@@ -20,8 +20,8 @@ fail() { echo "e2e: $*" >&2; exit 1; }
 cd "$(mktemp -d)"
 molto new e2e_lib
 cd e2e_lib
-# Use the same migrated runner as the plugin dependency.
-molto add "git+https://github.com/moltobuild/moltest#${MOLTEST_REF:-9e0611007d3b1ccebd589273dd14a7a229265c3c}" --dev
+# Use the same released runner as the plugin dependency.
+molto add "git+https://github.com/moltobuild/moltest#${MOLTEST_REF:-v0.4.0}" --dev
 molto add moltest_coverage --dev --path "$checkout"
 # A function no test calls, so coverage is under 100%.
 printf '\nint e2e_lib_unused(void) {\n    return 0;\n}\n' >> src/e2e_lib.c
@@ -54,8 +54,8 @@ echo "--- 4. per_file: two executables"
 cd ..
 molto new e2e_two
 cd e2e_two
-# Use the same migrated runner as the plugin dependency.
-molto add "git+https://github.com/moltobuild/moltest#${MOLTEST_REF:-9e0611007d3b1ccebd589273dd14a7a229265c3c}" --dev
+# Use the same released runner as the plugin dependency.
+molto add "git+https://github.com/moltobuild/moltest#${MOLTEST_REF:-v0.4.0}" --dev
 molto add moltest_coverage --dev --path "$checkout"
 sed 's/^mode = "single".*/mode = "per_file"/' Project.toml > Project.toml.new && mv Project.toml.new Project.toml
 grep -q '^mode = "per_file"' Project.toml || fail "could not switch the suite to per_file"

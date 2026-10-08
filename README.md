@@ -6,7 +6,8 @@ Code coverage for C and C++ suites run by [moltest](https://github.com/moltobuil
 Add it to your development dependencies, build your tests with `--coverage`,
 and every `molto test` ends with a coverage report of `src/`.
 
-Requires molto 0.47.2 or later and moltest 0.3.0 or later (its reporter API v1).
+This checkout uses moltest v0.4.0 (reporter API v1) and requires Molto with
+RFC-0024 support.
 
 ## What it does
 
@@ -34,11 +35,14 @@ with a floor set: the floor applies to coverage runs.
 ## Using it
 
 ```sh
-molto add git+https://github.com/moltobuild/moltest-coverage#v0.1.1 --dev
+molto add git+https://github.com/moltobuild/moltest#v0.4.0 --dev
+molto add moltest_coverage --dev --path ../moltest-coverage
 ```
 
 The package is named `moltest_coverage` in `[dev-deps]`. It links against your
-own moltest (0.3.0 or later), which must also be in `[dev-deps]`.
+own moltest v0.4.0, which must also be in `[dev-deps]`. The path refers to a
+checkout containing this migration. After a compatible release is published,
+replace it with that exact release tag.
 
 Then measure with molto's built-in coverage profile (molto 0.48.0 or later):
 
@@ -93,6 +97,7 @@ the only consumer description; run `molto package` before tagging a release.
 Older release tags still use recipes and require older Molto consumers.
 CI temporarily builds the immutable Molto revision in `MOLTO_SOURCE_REF`.
 
-The manifest pins the migrated moltest at `9e0611007d3b1ccebd589273dd14a7a229265c3c` as a runtime
-dependency. If your project also names moltest, use the same revision until
-compatible release tags are published.
+The manifest pins moltest `v0.4.0` as a runtime dependency. If your project
+also names moltest, use the same `v0.4.0` tag so the dependency graph shares one
+runner. Published plugin tags predating this migration still require their
+older runner; use a release containing this change with moltest `v0.4.0`.

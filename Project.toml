@@ -27,7 +27,7 @@ mode = "single"
 # The plugin calls the moltest API. The dependency graph shares this runner
 # with consumers and the package's tests.
 [deps]
-moltest = { git = "https://github.com/moltobuild/moltest", rev = "9e0611007d3b1ccebd589273dd14a7a229265c3c" }
+moltest = { git = "https://github.com/moltobuild/moltest", tag = "v0.4.0" }
 
 [profile.debug]
 opt_level = 0

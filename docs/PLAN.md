@@ -7,7 +7,7 @@ coverage falls under a configured floor. The first community-style plugin of
 moltest, and what lets molto drop its Makefile `coverage` target.
 
 ## Current focus
-Milestone: M5 - Nested test binaries · Issue: KI-4 (resolved) · Next step: release 0.2.1
+Milestone: Moltest 0.4.0 compatibility · Spec: [004](specs/004-moltest-0.4.0.md) · Next step: merge compatibility PR and publish a new plugin release
 
 ## Docs
 [ROADMAP](ROADMAP.md) · [ARCHITECTURE](ARCHITECTURE.md) · [SECURITY](SECURITY.md) ·
