@@ -85,3 +85,14 @@ older molto each executable is measured, and judged, on its own (KI-3).
 ## License
 
 Apache-2.0; see [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
+## Manifest packages (RFC-0024)
+
+This checkout requires a Molto build with RFC-0024 support. Project.toml is
+the only consumer description; run `molto package` before tagging a release.
+Older release tags still use recipes and require older Molto consumers.
+CI temporarily builds the immutable Molto revision in `MOLTO_SOURCE_REF`.
+
+The manifest pins the migrated moltest at `9e0611007d3b1ccebd589273dd14a7a229265c3c` as a runtime
+dependency. If your project also names moltest, use the same revision until
+compatible release tags are published.

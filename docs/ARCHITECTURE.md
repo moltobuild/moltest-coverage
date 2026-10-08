@@ -53,3 +53,10 @@ out) and are tested without a compiler; `collect` is tested end to end.
 - **Tool choice.** Derived from the compiler that built the plugin
   (`__clang__` → `llvm-cov gcov`, GCC → `gcov-<major>` then `gcov`), overridable
   in the config. To validate on Windows (MSYS2 gcc).
+
+## Manifest package interface
+
+Project.toml is the only carried description (Molto RFC-0024). The plugin
+exports include/ by convention and declares moltest in [deps], since its
+sources call that API. The graph shares one runner with consumers. Development
+configuration is ignored when the plugin is consumed.

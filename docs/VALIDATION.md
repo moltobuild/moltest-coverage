@@ -19,7 +19,7 @@ that tells each test executable its place in the run, RFC-0020), installed by `.
 | Style | Linux, LLVM 19 | `molto fmt --check`, `molto lint` (a gate) |
 
 `.github/workflows/release.yml` runs on a `v*` tag: the tag must equal the
-version in Project.toml and recipe.toml, the CI above runs again, and only then
+version in Project.toml, the CI above runs again, and only then
 is the GitHub Release published (DEVELOPMENT "Releasing").
 
 ## Strategy
@@ -34,3 +34,9 @@ is the GitHub Release published (DEVELOPMENT "Releasing").
 - [ ] SECURITY.md checklist reviewed
 - [ ] Spec, ROADMAP and PLAN updated
 - [ ] PROGRESS entry, commit, graphs refreshed
+
+## Manifest package migration
+
+CI temporarily builds Molto from the immutable `MOLTO_SOURCE_REF` revision
+with RFC-0024. `molto package` validates the tracked, pruned consumer copy.
+Switch back to a pinned binary release once RFC-0024 is released.

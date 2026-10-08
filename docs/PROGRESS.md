@@ -68,3 +68,10 @@
 - Tests: 25 self-tests (5 new in tests/test_profile_dir.c); e2e red on the old
   code, green on the fix; fmt and lint clean
 - Next: release 0.2.1, then molto's [dev-deps]
+
+## 2026-10-08 — RFC-0024 manifest package
+- Removed the carried recipe; the manifest describes the consumer interface.
+- CI builds an immutable RFC-0024 Molto revision and validates packaging.
+- Release version checks no longer require a recipe.
+- Security: no runtime code, public API or input handling changed.
+- Validation: package check, self-test (25 tests, 191 assertions), consumer e2e and shell syntax checks passed with Clang on macOS.
