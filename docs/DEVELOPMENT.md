@@ -16,7 +16,7 @@ molto test --profile coverage    # molto's built-in profile (0.48.0 or later)
 ```
 
 ## Releasing
-1. One PR bumps `version` in `Project.toml` and `recipe.toml`;
+1. One PR bumps `version` in `Project.toml`;
    `.github/check-version.sh <version>` checks both.
 2. After it merges, tag the merge commit and push the tag:
    `git tag -a v0.1.0 -m "moltest-coverage 0.1.0" && git push origin v0.1.0`.

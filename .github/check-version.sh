@@ -4,7 +4,7 @@
 #
 #   check-version.sh <version>      e.g. 0.1.0, or v0.1.0 (a tag)
 #
-# Project.toml is what molto builds and recipe.toml is what consumers read; a
+# Project.toml describes both the package and its consumer interface; a
 # release where the two disagree is a red run instead of a published one.
 set -eu
 
@@ -25,6 +25,5 @@ toml_version() {
 }
 
 check Project.toml "$(toml_version Project.toml)"
-check recipe.toml "$(toml_version recipe.toml)"
 
 exit $fail

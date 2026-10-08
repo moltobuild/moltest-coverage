@@ -14,3 +14,6 @@ Milestone: M5 - Nested test binaries · Issue: KI-4 (resolved) · Next step: rel
 [VALIDATION](VALIDATION.md) · [DEVELOPMENT](DEVELOPMENT.md) ·
 [DEPENDENCIES](DEPENDENCIES.md) · [PROGRESS](PROGRESS.md) ·
 [KNOWN_ISSUES](KNOWN_ISSUES.md) · [specs/](specs/) · [adr/](adr/)
+
+## Package migration
+Current task: RFC-0024 ([spec](specs/003-manifest-package.md)); remove the recipe and validate the manifest consumer interface.

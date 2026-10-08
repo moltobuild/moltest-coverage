@@ -52,3 +52,6 @@
 - Combine runs (several platforms or profiles) into one report
 - Diff coverage against a git ref
 - Clang source-based coverage (`-fprofile-instr-generate`, `llvm-cov export`)
+
+## Manifest package migration
+- [x] Adopt RFC-0024 and validate packaging ([spec](specs/003-manifest-package.md)).
