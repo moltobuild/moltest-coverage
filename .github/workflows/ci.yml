@@ -84,6 +84,7 @@ jobs:
           # and an MSYS2 shell does not see the runner's own git.
           install: >-
             git
+            make
             mingw-w64-x86_64-gcc
       - name: Install the pinned Molto revision
         run: ./.github/install-molto.sh x86_64-windows.exe sha256sum
@@ -141,6 +142,7 @@ jobs:
           # and an MSYS2 shell does not see the runner's own git.
           install: >-
             git
+            make
             mingw-w64-x86_64-gcc
       - name: Install the pinned Molto revision
         run: ./.github/install-molto.sh x86_64-windows.exe sha256sum
