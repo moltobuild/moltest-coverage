@@ -55,3 +55,6 @@
 
 ## Manifest package migration
 - [x] Adopt RFC-0024 and validate packaging ([spec](specs/003-manifest-package.md)).
+
+## Moltest 0.4.0 compatibility
+- [x] Adopt the released runner and validate consumer integration ([spec](specs/004-moltest-0.4.0.md)).
