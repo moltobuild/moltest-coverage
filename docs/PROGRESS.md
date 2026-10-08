@@ -75,3 +75,4 @@
 - Release version checks no longer require a recipe.
 - Security: no runtime code, public API or input handling changed.
 - Validation: package check, self-test (25 tests, 191 assertions), consumer e2e and shell syntax checks passed with Clang on macOS.
+- CI bootstrap updated to include the Windows read-only Git object pruning fix.
